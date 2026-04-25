@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cedinord — Marketing Hub</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f5;color:#1a1a1a}
+.topbar{background:#fff;border-bottom:1px solid #e5e7eb;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-sq{width:32px;height:32px;background:#185FA5;border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px}
+.brand{font-weight:600;font-size:15px}
+.brand-sub{font-size:11px;color:#6b7280}
+.badges{display:flex;gap:6px}
+.badge{font-size:10px;padding:3px 8px;border-radius:20px;border:1px solid}
+.b-green{background:#f0fdf4;color:#15803d;border-color:#86efac}
+.b-blue{background:#eff6ff;color:#1d4ed8;border-color:#93c5fd}
+.b-orange{background:#fff7ed;color:#c2410c;border-color:#fdba74}
+.nav{display:flex;gap:2px;background:#fff;border-bottom:1px solid #e5e7eb;padding:0 20px;overflow-x:auto}
+.tab{font-size:13px;padding:10px 16px;border:none;background:none;cursor:pointer;color:#6b7280;border-bottom:2px solid transparent;white-space:nowrap;font-family:inherit}
+.tab.on{color:#185FA5;border-bottom-color:#185FA5;font-weight:500}
+.tab:hover:not(.on){background:#f9fafb}
+.content{padding:20px;max-width:1200px;margin:0 auto}
+.panel{display:none}.panel.on{display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px}
+.kpi{background:#f9fafb;border-radius:8px;padding:12px 14px}
+.kpi-lbl{font-size:11px;color:#6b7280;margin-bottom:4px}
+.kpi-val{font-size:24px;font-weight:600;color:#111827}
+.kpi-d{font-size:11px;margin-top:3px;color:#15803d}
+.sec{font-size:14px;font-weight:600;color:#111827;margin-bottom:12px;margin-top:20px}
+.sec:first-child{margin-top:0}
+label{font-size:12px;color:#6b7280;font-weight:500;display:block;margin-bottom:4px}
+select,input,textarea{width:100%;font-size:13px;padding:8px 10px;border-radius:8px;border:1px solid #d1d5db;background:#fff;font-family:inherit;margin-bottom:10px}
+select:focus,input:focus,textarea:focus{outline:none;border-color:#185FA5;box-shadow:0 0 0 3px rgba(24,95,165,0.1)}
+textarea{resize:vertical;min-height:80px}
+.btn{font-size:13px;padding:8px 16px;border-radius:8px;border:1px solid #d1d5db;background:#fff;cursor:pointer;font-family:inherit;color:#374151;transition:all .15s}
+.btn:hover{background:#f9fafb}
+.btn-primary{background:#185FA5;color:#fff;border-color:#185FA5}
+.btn-primary:hover{background:#0C447C}
+.btn-w{width:100%}
+.preview{background:#f9fafb;border-radius:8px;padding:12px;font-size:13px;color:#111827;line-height:1.7;min-height:80px;white-space:pre-wrap;border:1px solid #e5e7eb}
+.pill{font-size:10px;padding:2px 8px;border-radius:20px}
+.p-green{background:#f0fdf4;color:#15803d}
+.p-blue{background:#eff6ff;color:#1d4ed8}
+.p-amber{background:#fff7ed;color:#c2410c}
+.p-red{background:#fef2f2;color:#dc2626}
+.p-purple{background:#f5f3ff;color:#7c3aed}
+.p-teal{background:#f0fdfa;color:#0f766e}
+.spinner{display:inline-flex;gap:3px;align-items:center}
+.spinner span{width:5px;height:5px;border-radius:50%;background:#185FA5;animation:sp 1s infinite}
+.spinner span:nth-child(2){animation-delay:.15s}
+.spinner span:nth-child(3){animation-delay:.3s}
+@keyframes sp{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+.alert{padding:10px 14px;border-radius:8px;font-size:12px;margin-bottom:14px;line-height:1.6}
+.alert-blue{background:#eff6ff;color:#1e40af;border:1px solid #93c5fd}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{font-size:11px;font-weight:600;color:#6b7280;text-align:left;padding:6px 8px;border-bottom:1px solid #e5e7eb}
+.tbl td{padding:8px;border-bottom:1px solid #f3f4f6;color:#111827}
+.tbl tr:hover td{background:#f9fafb}
+.progress{background:#e5e7eb;border-radius:3px;height:5px;margin-top:8px}
+.progress-fill{height:100%;border-radius:3px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-sq">CN</div>
+    <div>
+      <div class="brand">Cedinord — Marketing Hub</div>
+      <div class="brand-sub">Acquisition multicanal · Tourcoing</div>
+    </div>
+  </div>
+  <div class="badges">
+    <span class="badge b-green">HubSpot</span>
+    <span class="badge b-blue">SMS Brevo</span>
+    <span class="badge b-orange" id="server-status">Chargement...</span>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="tab on" onclick="sw('dash',this)">Dashboard</button>
+  <button class="tab" onclick="sw('posts',this)">Posts IA</button>
+  <button class="tab" onclick="sw('sms',this)">SMS / Email</button>
+  <button class="tab" onclick="sw('auto',this)">Automations</button>
+  <button class="tab" onclick="sw('leads',this)">Leads CRM</button>
+</div>
+
+<div class="content">
+
+  <!-- DASHBOARD -->
+  <div class="panel on" id="panel-dash">
+    <div class="grid4" style="margin-bottom:20px">
+      <div class="kpi"><div class="kpi-lbl">Leads ce mois</div><div class="kpi-val">247</div><div class="kpi-d">+18% vs M-1</div></div>
+      <div class="kpi"><div class="kpi-lbl">Visites magasin</div><div class="kpi-val">83</div><div class="kpi-d">+12%</div></div>
+      <div class="kpi"><div class="kpi-lbl">Conversion</div><div class="kpi-val">33%</div><div class="kpi-d">+3pts</div></div>
+      <div class="kpi"><div class="kpi-lbl">CA généré</div><div class="kpi-val">6 840€</div><div class="kpi-d">+22%</div></div>
+    </div>
+    <div class="sec">Canaux actifs</div>
+    <div class="grid3">
+      <div class="card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><div style="font-size:13px;font-weight:600">Facebook Ads</div><span class="pill p-green">Actif</span></div><div style="font-size:11px;color:#6b7280">82 leads · 4.20€ CPL</div><div class="progress"><div class="progress-fill" style="width:82%;background:#185FA5"></div></div></div>
+      <div class="card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><div style="font-size:13px;font-weight:600">Instagram</div><span class="pill p-green">Actif</span></div><div style="font-size:11px;color:#6b7280">61 leads · 5.80€ CPL</div><div class="progress"><div class="progress-fill" style="width:61%;background:#7c3aed"></div></div></div>
+      <div class="card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><div style="font-size:13px;font-weight:600">WhatsApp</div><span class="pill p-green">Actif</span></div><div style="font-size:11px;color:#6b7280">43 leads · 1.90€ CPL</div><div class="progress"><div class="progress-fill" style="width:43%;background:#0f766e"></div></div></div>
+      <div class="card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><div style="font-size:13px;font-weight:600">Google My Business</div><span class="pill p-green">Actif</span></div><div style="font-size:11px;color:#6b7280">38 leads · organique</div><div class="progress"><div class="progress-fill" style="width:38%;background:#c2410c"></div></div></div>
+      <div class="card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><div style="font-size:13px;font-weight:600">Emailing</div><span class="pill p-amber">Pause</span></div><div style="font-size:11px;color:#6b7280">15 leads · ouv. 28%</div><div class="progress"><div class="progress-fill" style="width:15%;background:#7c3aed"></div></div></div>
+      <div class="card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><div style="font-size:13px;font-weight:600">SMS</div><span class="pill p-green">Actif</span></div><div style="font-size:11px;color:#6b7280">8 leads · clic 6.2%</div><div class="progress"><div class="progress-fill" style="width:8%;background:#dc2626"></div></div></div>
+    </div>
+  </div>
+
+  <!-- POSTS IA -->
+  <div class="panel" id="panel-posts">
+    <div class="grid2">
+      <div>
+        <div class="sec">Créateur de posts IA</div>
+        <label>Réseau social</label>
+        <select id="p-canal">
+          <option value="facebook">Facebook</option>
+          <option value="instagram">Instagram</option>
+          <option value="gmb">Google My Business</option>
+          <option value="whatsapp">WhatsApp</option>
+        </select>
+        <label>Format</label>
+        <select id="p-format">
+          <option>Post standard</option>
+          <option>Offre promotionnelle</option>
+          <option>Avant / Après réparation</option>
+          <option>Témoignage client</option>
+          <option>Carrousel</option>
+        </select>
+        <label>Sujet / offre</label>
+        <input id="p-sujet" placeholder="ex: PC reconditionnés dès 199€ ce week-end">
+        <label>Ton</label>
+        <select id="p-ton">
+          <option>Dynamique & local</option>
+          <option>Professionnel</option>
+          <option>Promotionnel urgence</option>
+          <option>Humour & proximité</option>
+        </select>
+        <button class="btn btn-primary btn-w" onclick="genPost()">Générer avec l'IA</button>
+      </div>
+      <div>
+        <div class="sec">Aperçu</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+          <div style="width:28px;height:28px;border-radius:50%;background:#185FA5;display:flex;align-items:center;justify-content:center;color:white;font-size:11px;font-weight:700">CN</div>
+          <div><div style="font-size:13px;font-weight:600">Cedinord</div><div id="canal-lbl" style="font-size:11px;color:#6b7280">Facebook</div></div>
+        </div>
+        <div class="preview" id="post-out">Remplissez le formulaire et cliquez Générer.</div>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button class="btn" onclick="copyTxt('post-out')">Copier</button>
+          <button class="btn btn-primary" onclick="genImgPrompt()">Prompt image</button>
+        </div>
+        <div style="margin-top:12px;font-size:12px;color:#6b7280;margin-bottom:4px">Prompt image Canva / Midjourney</div>
+        <div class="preview" id="img-prompt" style="min-height:50px;font-size:12px">Générez d'abord un post.</div>
+        <button class="btn" style="margin-top:6px" onclick="copyTxt('img-prompt')">Copier prompt</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SMS / EMAIL -->
+  <div class="panel" id="panel-sms">
+    <div class="grid2">
+      <div>
+        <div class="sec">Créer un message</div>
+        <label>Type</label>
+        <select id="msg-type">
+          <option value="sms_promo">SMS promo</option>
+          <option value="sms_relance">SMS relance client</option>
+          <option value="sms_rdv">SMS confirmation RDV</option>
+          <option value="nl">Newsletter email</option>
+          <option value="welcome">Email bienvenue</option>
+        </select>
+        <label>Segment</label>
+        <select id="msg-seg">
+          <option>Tous les clients</option>
+          <option>Nouveaux leads</option>
+          <option>Clients inactifs +3 mois</option>
+          <option>Clients réparation</option>
+        </select>
+        <label>Message clé / offre</label>
+        <textarea id="msg-key" placeholder="ex: Réparation écran à 59€ ce week-end seulement"></textarea>
+        <button class="btn btn-primary btn-w" onclick="genMsg()">Générer</button>
+        <div style="margin-top:14px;font-size:12px;color:#6b7280;margin-bottom:6px">Envoyer un SMS de test</div>
+        <input id="test-phone" placeholder="Numéro de téléphone (ex: 0612345678)">
+        <button class="btn btn-w" onclick="sendTestSMS()">Envoyer SMS de test</button>
+      </div>
+      <div>
+        <div class="sec">Aperçu</div>
+        <div class="preview" id="msg-out">Sélectionnez le type et cliquez Générer.</div>
+        <div id="sms-info" style="font-size:11px;color:#6b7280;margin-top:4px;text-align:right"></div>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button class="btn" onclick="copyTxt('msg-out')">Copier</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTOMATIONS -->
+  <div class="panel" id="panel-auto">
+    <div class="alert alert-blue">Ces automations se déclenchent automatiquement via les webhooks HubSpot. Configurez les webhooks pour pointer vers votre URL Railway.</div>
+    <div class="sec">Flux automatisés actifs</div>
+    <div class="grid3">
+      <div class="card"><div style="font-size:13px;font-weight:600;margin-bottom:5px">Bienvenue nouveau lead</div><div style="font-size:12px;color:#6b7280">SMS auto à la création d'un contact HubSpot</div><div style="margin-top:8px"><span class="pill p-green">Actif</span></div></div>
+      <div class="card"><div style="font-size:13px;font-weight:600;margin-bottom:5px">Réparation terminée</div><div style="font-size:12px;color:#6b7280">SMS "appareil prêt" quand ticket fermé</div><div style="margin-top:8px"><span class="pill p-green">Actif</span></div></div>
+      <div class="card"><div style="font-size:13px;font-weight:600;margin-bottom:5px">Demande d'avis Google</div><div style="font-size:12px;color:#6b7280">SMS J+1 après récupération appareil</div><div style="margin-top:8px"><span class="pill p-green">Actif</span></div></div>
+      <div class="card"><div style="font-size:13px;font-weight:600;margin-bottom:5px">Nurturing 7 jours</div><div style="font-size:12px;color:#6b7280">SMS J0 → Email J2 → SMS J5 → Email J7</div><div style="margin-top:8px"><span class="pill p-blue">En attente config</span></div></div>
+      <div class="card"><div style="font-size:13px;font-weight:600;margin-bottom:5px">Réactivation 90 jours</div><div style="font-size:12px;color:#6b7280">Relance clients inactifs chaque lundi</div><div style="margin-top:8px"><span class="pill p-blue">En attente config</span></div></div>
+      <div class="card"><div style="font-size:13px;font-weight:600;margin-bottom:5px">Confirmation dépôt</div><div style="font-size:12px;color:#6b7280">SMS à la création d'un ticket réparation</div><div style="margin-top:8px"><span class="pill p-green">Actif</span></div></div>
+    </div>
+    <div class="sec">URLs de vos webhooks (à copier dans HubSpot)</div>
+    <div class="card">
+      <div id="webhook-urls" style="font-family:monospace;font-size:12px;line-height:2;color:#185FA5"></div>
+    </div>
+  </div>
+
+  <!-- LEADS -->
+  <div class="panel" id="panel-leads">
+    <div class="sec">Derniers clients (HubSpot)</div>
+    <div style="border:1px solid #e5e7eb;border-radius:12px;overflow:hidden">
+      <table class="tbl">
+        <thead><tr><th>Client</th><th>Canal</th><th>Statut</th><th>Ticket</th></tr></thead>
+        <tbody>
+          <tr><td>Martin MOUS</td><td><span class="pill p-blue">Facebook</span></td><td><span class="pill p-amber">En cours</span></td><td>#REP-2026-1234</td></tr>
+          <tr><td>Nancy MUSWAMBA</td><td><span class="pill p-teal">GMB</span></td><td><span class="pill p-green">Terminé</span></td><td>#REP-2026-1233</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const ANTHROPIC_API = 'https://api.anthropic.com/v1/messages';
+
+function sw(id,tab){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('panel-'+id).classList.add('on');
+  tab.classList.add('on');
+}
+
+// Health check serveur
+fetch('/health').then(r=>r.json()).then(d=>{
+  document.getElementById('server-status').textContent='Serveur actif';
+  document.getElementById('server-status').className='badge b-green';
+}).catch(()=>{
+  document.getElementById('server-status').textContent='Hors ligne';
+  document.getElementById('server-status').className='badge';
+  document.getElementById('server-status').style.cssText='background:#fef2f2;color:#dc2626;border-color:#fca5a5';
+});
+
+// Afficher les URLs webhook
+const base = window.location.origin;
+document.getElementById('webhook-urls').innerHTML =
+  `Nouveau contact → ${base}/webhook/new-contact<br>Ticket fermé    → ${base}/webhook/ticket-closed<br>SMS manuel     → POST ${base}/api/sms/send`;
+
+function spin(id){ document.getElementById(id).innerHTML='<div class="spinner"><span></span><span></span><span></span></div> Génération en cours...'; }
+
+async function callAI(prompt, target, cb){
+  spin(target);
+  try{
+    const r = await fetch(ANTHROPIC_API,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:700,messages:[{role:'user',content:prompt}]})});
+    const d = await r.json();
+    const txt = d.content?.[0]?.text || 'Erreur';
+    document.getElementById(target).textContent = txt;
+    if(cb) cb(txt);
+  }catch(e){ document.getElementById(target).textContent = 'Erreur de connexion à l\'IA.'; }
+}
+
+function genPost(){
+  const canal = document.getElementById('p-canal').value;
+  const format = document.getElementById('p-format').value;
+  const sujet = document.getElementById('p-sujet').value || 'offre spéciale';
+  const ton = document.getElementById('p-ton').value;
+  const labels = {facebook:'Facebook · Maintenant',instagram:'Instagram · il y a 2 min',gmb:'Google My Business',whatsapp:'WhatsApp Business'};
+  document.getElementById('canal-lbl').textContent = labels[canal]||canal;
+  callAI(`Post ${format} pour ${canal}, boutique Cedinord Tourcoing. Sujet : ${sujet}. Ton : ${ton}. Emojis, hashtags locaux, CTA pour venir en boutique. Prêt à publier en français.`,'post-out');
+}
+
+function genImgPrompt(){
+  const sujet = document.getElementById('p-sujet').value || 'boutique informatique';
+  callAI(`Prompt Midjourney pour illustrer : "${sujet}" — boutique informatique Cedinord Tourcoing. Style : photo commerciale moderne, lumière naturelle. En anglais, format "a professional photo of..."`,'img-prompt');
+}
+
+function genMsg(){
+  const type = document.getElementById('msg-type').value;
+  const seg = document.getElementById('msg-seg').value;
+  const key = document.getElementById('msg-key').value || 'offre spéciale';
+  const isSMS = type.startsWith('sms');
+  const p = isSMS
+    ? `SMS marketing Cedinord Tourcoing. Segment : ${seg}. Offre : ${key}. MAX 160 caractères. Expéditeur CEDINORD. CTA court. Texte uniquement.`
+    : `Email ${type} pour Cedinord Tourcoing. Segment : ${seg}. Message clé : ${key}. Structure : objet + intro + offre + CTA. Professionnel et engageant.`;
+  callAI(p,'msg-out', txt => {
+    if(isSMS) document.getElementById('sms-info').textContent = txt.length+' car. · '+Math.ceil(txt.length/160)+' SMS';
+    else document.getElementById('sms-info').textContent='';
+  });
+}
+
+async function sendTestSMS(){
+  const phone = document.getElementById('test-phone').value;
+  const msg = document.getElementById('msg-out').textContent;
+  if(!phone || msg.includes('Sélectionnez')) return alert('Générez d\'abord un message et entrez un numéro.');
+  const r = await fetch('/api/sms/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone,message:msg})});
+  const d = await r.json();
+  alert(d.success ? 'SMS envoyé avec succès !' : 'Erreur : '+d.error);
+}
+
+function copyTxt(id){
+  navigator.clipboard?.writeText(document.getElementById(id).textContent);
+  alert('Copié !');
+}
+</script>
+</body>
+</html>
